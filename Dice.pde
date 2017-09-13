@@ -57,6 +57,8 @@ class Die //models one single dice cube
 		}
 		else{
 			//nine sided dice
+			beginShape():
+			endShape(CLOSE);
 		}
 	}
 }
