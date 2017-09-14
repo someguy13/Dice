@@ -1,4 +1,5 @@
-Die bob = new Die(300,300,6);
+Die bob = new Die(300,300,1);
+Die joe = new Die(300,100,2);
 
 
 void setup()
@@ -10,6 +11,7 @@ void draw()
 {
 	background(0);
 	bob.show();	
+	joe.show();
 }
 void mousePressed()
 {
@@ -21,7 +23,6 @@ class Die //models one single dice cube
 	double diceNum;
 	Die(int x, int y, int type) //constructor
 	{
-		roll();
 		myX = x;
 		myY = y;
 		mySize = 70;
@@ -29,7 +30,7 @@ class Die //models one single dice cube
 	}
 	void roll()
 	{
-		if(type == 1){
+		if(myType == 1){
 			diceNum = (int)(Math.random() * 6) + 1;
 		}
 		else {
@@ -38,27 +39,60 @@ class Die //models one single dice cube
 	}
 	void show()
 	{
+		roll();
 		System.out.println((int)(Math.random()* myType));
 		if(myType == 1){
 			rect(myX,myY,mySize,mySize,5);
 			fill(255);
 			if(diceNum == 1) {
-				ellipse(myX + mySize/2,myY + mySize/2,15,15);
+				one(myX,myY,mySize);
 			}
 			else if(diceNum == 2){
-				ellipse(myX + mySize*3/4,myY + mySize*1/4 ,20,20);
-				ellipse(myX + mySize*1/4,myY + mySize*3/4 ,20,20);
+				two(myX,myY,mySize);
 			}
 			else if(diceNum == 3){
-				ellipse(myX + mySize*3/4,myY + mySize/4 ,20,20);
-				ellipse(myX + mySize/4, myY + mySize*3/4 ,20,20);
-				ellipse(myX + mySize/2, myY + mySize/2 ,20,20);
+				two(myX,myY,mySize);
+				one(myX,myY,mySize);
+			}
+			else if(diceNum == 4){
+				four(myX,myY,mySize);
+			}
+			else if(diceNum == 5){
+				four(myX,myY,mySize);
+				one(myX,myY,mySize);
+			}
+			else{
+				four(myX,myY,mySize);
+				one(myX + mySize/4,myY,mySize);
+				one(myX - mySize/4,myY,mySize);
 			}
 		}
-		else{
-			//nine sided dice
-			beginShape():
-			endShape(CLOSE);
+		else {
+			poly(myX, myY);
 		}
 	}
+}
+
+void poly(int x, int y){
+	beginShape();
+	vertex(x + 35,y);
+	vertex(x, y + 53);
+	vertex(x + 35, y + 70);
+	vertex(x + 70, y + 53);
+	vertex(x + 35,y);
+	endShape(CLOSE);
+}
+
+void one(int x, int y, int size) {
+	ellipse(x + size/2,y + size/2,20,20);
+}
+void two(int x,int y, int size){
+	ellipse(x + size*3/4,y + size*1/4 ,20,20);
+	ellipse(x + size*1/4,y + size*3/4 ,20,20);
+}
+void four(int x, int y, int size){
+	ellipse(x + size*3/4,y + size*1/4 ,20,20);
+	ellipse(x + size*1/4,y + size*3/4 ,20,20);
+	ellipse(x + size*3/4,y + size*3/4 ,20,20);
+	ellipse(x + size*1/4,y + size*1/4 ,20,20);
 }
