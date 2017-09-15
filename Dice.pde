@@ -1,31 +1,52 @@
-Die bob = new Die(300,300,1);
-Die joe = new Die(300,100,2);
-
-
+Die bob;
+boolean toggle = true;
+int tot = 0;
 void setup()
 {
 	size(600,600);
-	noLoop();
+	textAlign(CENTER);
+	//noLoop();
 }
 void draw()
 {
+	tot = 0;
 	background(0);
-	bob.show();	
-	joe.show();
+	for(int j = 5; j <= 400; j += 25){
+		for(int i = 5; i <= 600; i += 25){
+			bob = new Die(i,j,(int)(Math.random()*2)+1);
+			bob.show();
+			tot = tot + bob.diceNum;
+		}
+		
+	}
+
+}
+void sum(){
+	fill(255);
+	text(tot,100,500);
 }
 void mousePressed()
 {
-	redraw();
+	if(toggle == true){
+		noLoop();
+		redraw();
+		toggle = false;
+		sum();
+		
+	}
+	else {
+		loop();
+		toggle = true;	
+	}
 }
 class Die //models one single dice cube
 {
-	int myX,myY,myType,mySize;
-	double diceNum;
+	int myX,myY,myType,mySize,diceNum;
 	Die(int x, int y, int type) //constructor
 	{
 		myX = x;
 		myY = y;
-		mySize = 70;
+		mySize = 20;
 		myType = type;
 	}
 	void roll()
@@ -40,10 +61,10 @@ class Die //models one single dice cube
 	void show()
 	{
 		roll();
-		System.out.println((int)(Math.random()* myType));
 		if(myType == 1){
+			fill((int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50);
 			rect(myX,myY,mySize,mySize,5);
-			fill(255);
+			fill(0);
 			if(diceNum == 1) {
 				one(myX,myY,mySize);
 			}
@@ -68,31 +89,35 @@ class Die //models one single dice cube
 			}
 		}
 		else {
-			poly(myX, myY);
+			fill((int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50);
+			poly(myX, myY, mySize);
+			fill(0);
+			textSize(mySize/2);
+			text(diceNum,myX+mySize/2,myY+mySize*4/5);
 		}
 	}
 }
 
-void poly(int x, int y){
+void poly(int x, int y, int size){
 	beginShape();
-	vertex(x + 35,y);
-	vertex(x, y + 53);
-	vertex(x + 35, y + 70);
-	vertex(x + 70, y + 53);
-	vertex(x + 35,y);
+	vertex(x + size/2,y);
+	vertex(x, y + size*3/4);
+	vertex(x + size/2, y + size);
+	vertex(x + size, y + size*3/4);
+	vertex(x + size/2,y);
 	endShape(CLOSE);
 }
 
 void one(int x, int y, int size) {
-	ellipse(x + size/2,y + size/2,20,20);
+	ellipse(x + size/2,y + size/2,size/4,size/4);
 }
 void two(int x,int y, int size){
-	ellipse(x + size*3/4,y + size*1/4 ,20,20);
-	ellipse(x + size*1/4,y + size*3/4 ,20,20);
+	ellipse(x + size*3/4,y + size*1/4 ,size/4,size/4);
+	ellipse(x + size*1/4,y + size*3/4 ,size/4,size/4);
 }
 void four(int x, int y, int size){
-	ellipse(x + size*3/4,y + size*1/4 ,20,20);
-	ellipse(x + size*1/4,y + size*3/4 ,20,20);
-	ellipse(x + size*3/4,y + size*3/4 ,20,20);
-	ellipse(x + size*1/4,y + size*1/4 ,20,20);
+	ellipse(x + size*3/4,y + size*1/4 ,size/4,size/4);
+	ellipse(x + size*1/4,y + size*3/4 ,size/4,size/4);
+	ellipse(x + size*3/4,y + size*3/4 ,size/4,size/4);
+	ellipse(x + size*1/4,y + size*1/4 ,size/4,size/4);
 }
