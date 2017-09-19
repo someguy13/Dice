@@ -53,7 +53,7 @@ void sum(){
 	text("Total Sum: " + tot,205,475);
 	text("Total Total Sum: " + totsum, 205, 500);
 	text("Number of Rolls: " + rolls, 400,450);
-	text("Average Sum per Roll: " + avg, 400,475);
+	text("Average Sum per Roll: " + (int)avg, 400,475);
 }
 void mousePressed()
 {
