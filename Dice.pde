@@ -1,38 +1,68 @@
 Die bob;
 boolean toggle = true;
-int tot = 0;
+int tot,sum6,sum9,num6,num9,num, rolls, totsum, avg = 0;
+
 void setup()
 {
 	size(600,600);
-	textAlign(CENTER);
-	//noLoop();
+	frameRate(30);
 }
 void draw()
 {
+	sum6 = 0;
+	sum9 = 0;
+	num6 = 0;
+	num9 = 0;
 	tot = 0;
-	background(0);
+	num = 0;
+	background(255);
 	for(int j = 5; j <= 400; j += 25){
 		for(int i = 5; i <= 600; i += 25){
 			bob = new Die(i,j,(int)(Math.random()*2)+1);
 			bob.show();
-			tot = tot + bob.diceNum;
+			if(bob.myType == 1){
+				sum6 = sum6 + bob.diceNum;
+				num6 = num6 + 1;
+			}
+			else if(bob.myType == 2){
+				sum9 = sum9 + bob.diceNum;
+				num9 = num9 + 1;
+			}
 		}
-		
 	}
-
+	tot = sum6 + sum9;
+	num = num6 + num9;
+	fill(0);
+	rect(0,425,600,175);
+	textSize(20);
+	fill(255);
+	textAlign(CENTER);
+	text("Click Anywhere to Roll!", 300,575);
 }
 void sum(){
+	totsum = totsum + tot;
+	avg = totsum/rolls;
 	fill(255);
-	text(tot,100,500);
+	textSize(12);
+	textAlign(LEFT);
+	text("Number of six-sided: " + num6,5,450);
+	text("Sum of six-sided: " + sum6,5,475);
+	text("Number of nine-sided: " + num9,5,500);
+	text("Sum of nine-sided: " + sum9,5,525);
+	text("Total Number of Dice: " + num,205,450);
+	text("Total Sum: " + tot,205,475);
+	text("Total Total Sum: " + totsum, 205, 500);
+	text("Number of Rolls: " + rolls, 400,450);
+	text("Average Sum per Roll: " + avg, 400,475);
 }
 void mousePressed()
 {
 	if(toggle == true){
 		noLoop();
 		redraw();
+		rolls = rolls + 1;
 		toggle = false;
 		sum();
-		
 	}
 	else {
 		loop();
@@ -89,6 +119,7 @@ class Die //models one single dice cube
 			}
 		}
 		else {
+			textAlign(CENTER);
 			fill((int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50,(int)(Math.random()*205) + 50);
 			poly(myX, myY, mySize);
 			fill(0);
